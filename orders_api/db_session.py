@@ -4,7 +4,7 @@ import uuid
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
 
-from models import Base, Product, Order
+from orders_api.models import Base, Product, Order
 
 engine = create_engine("sqlite:///pyconus.db")
 Base.metadata.create_all(engine)
