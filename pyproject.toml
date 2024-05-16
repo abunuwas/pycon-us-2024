@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "pycon-us-2024"
+version = "0.1.0"
+description = "Code for Fundamentals of API Security tutorial at PyCon US 2024"
+authors = ["Jose Haro Peralta <jose@microapis.io>"]
+readme = "README.md"
+packages = [{include = "pycon_us_2024"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.111.0"
+uvicorn = "^0.29.0"
+python-jose = "^3.3.0"
+sqlalchemy = "^2.0.30"
+requests = "^2.31.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.4.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
