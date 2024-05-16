@@ -1,18 +1,16 @@
 import enum
 import uuid
 from datetime import datetime
-from typing import Optional, Annotated
+from typing import Optional
 from uuid import UUID
 
 import requests
-from fastapi import APIRouter, HTTPException, Depends
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, ConfigDict
 from pydantic_core import Url
 from sqlalchemy import select, text
 from starlette import status
 
-from auth.auth_middleware import validate_token
 from orders_api.db_session import session_maker
 from orders_api.models import Product, Order
 
@@ -55,13 +53,6 @@ class ListOrders(BaseModel):
     orders: list[GetOrderSchema]
 
 
-security = HTTPBearer()
-
-
-def authorize_access(credentials: Annotated[HTTPAuthorizationCredentials, Depends(security)]):
-    return validate_token(credentials.credentials)
-
-
 @orders_api.get("/products", response_model=ListProducts)
 def list_products():
     with session_maker() as session:
@@ -70,18 +61,13 @@ def list_products():
 
 
 @orders_api.get("/orders", response_model=ListOrders)
-def list_orders(
-        user_claims: dict = Depends(authorize_access),
-        status: Optional[str] = "paid"
-):
+def list_orders(status: Optional[str] = "paid"):
     # BOLA
     # injection param: ' OR 1=1--
     with session_maker() as session:
         orders = session.execute(
             text(
-                # f"select * from 'order' where status = '{status or ''}';"
-                f"select * from 'order' where status = '{status or ''}'"
-                f"and user_id = '{user_claims['sub']}';"
+                f"select * from 'order' where status = '{status or ''}';"
             )
         )
         return {"orders": orders}
