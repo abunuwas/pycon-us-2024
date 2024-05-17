@@ -9,6 +9,9 @@ Welcome to the tutorial!
 This repository contains a vulnerable API. During the tutorial, we'll anlayze how it's vulnerable,
 how we exploit its vulnerabilities, and how we fix them.
 
+**NOTE**: The Power Point with the slides for the presentation are available under the presentation
+folder.
+
 ---
 
 ### Installing dependencies
